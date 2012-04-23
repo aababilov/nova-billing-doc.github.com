@@ -1,0 +1,223 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>The nova_billing.utils Module &mdash; nova-billing v2.0.0 documentation</title>
+    <link rel="stylesheet" href="../static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="../static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../static/bootstrap.css" type="text/css" />
+    <link rel="stylesheet" href="../static/bootstrap-sphinx.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '2.0.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../static/jquery.js"></script>
+    <script type="text/javascript" src="../static/underscore.js"></script>
+    <script type="text/javascript" src="../static/doctools.js"></script>
+    <script type="text/javascript" src="../static/bootstrap-dropdown.js"></script>
+    <script type="text/javascript" src="../static/bootstrap-scrollspy.js"></script>
+    <link rel="top" title="nova-billing v2.0.0 documentation" href="../index.html" />
+<script type="text/javascript">
+(function () {
+  /**
+   * Patch TOC list.
+   *
+   * Will mutate the underlying span to have a correct ul for nav.
+   *
+   * @param $span: Span containing nested UL's to mutate.
+   * @param minLevel: Starting level for nested lists. (1: global, 2: local).
+   */
+  var patchToc = function ($span, minLevel) {
+    var $tocList = $("<ul/>").attr('class', "dropdown-menu"),
+      findA;
+
+    // Find all a "internal" tags, traversing recursively.
+    findA = function ($elem, level) {
+      var level = level || 0,
+        $items = $elem.find("> li > a.internal, > ul, > li > ul");
+
+      // Iterate everything in order.
+      $items.each(function (index, item) {
+        var $item = $(item),
+          tag = item.tagName.toLowerCase(),
+          pad = 10 + ((level - minLevel) * 10);
+
+        if (tag === 'a' && level >= minLevel) {
+          // Add to existing padding.
+          $item.css('padding-left', pad + "px");
+          // Add list element.
+          $tocList.append($("<li/>").append($item));
+        } else if (tag === 'ul') {
+          // Recurse.
+          findA($item, level + 1);
+        }
+      });
+    };
+
+    // Start construction and return.
+    findA($span);
+
+    // Wipe out old list and patch in new one.
+    return $span.empty("ul").append($tocList);
+  };
+
+  $(document).ready(function () {
+    // Patch the global and local TOC's to be bootstrap-compliant.
+    patchToc($("span.globaltoc"), 1);
+    patchToc($("span.localtoc"), 2);
+
+    // Activate.
+    $('#topbar').dropdown();
+  });
+}());
+</script>
+
+  </head>
+  <body>
+  <div class="topbar" data-scrollspy="scrollspy" >
+    <div class="topbar-inner">
+      <div class="container">
+        <a class="brand" href="../index.html">nova-billing v2.0.0 documentation</a>
+        <ul class="nav">
+          
+            <li class="dropdown" data-dropdown="dropdown">
+  <a href="../index.html"
+     class="dropdown-toggle">Site</a>
+  <span class="globaltoc"><ul>
+<li class="toctree-l1"><a class="reference internal" href="../glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../architecture.html">Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quickstart.html">Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../whatsnew.html">What&#8217;s new</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../restapi.html">REST API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../config.html">Configuration</a></li>
+</ul>
+</span>
+</li>
+            
+          
+          
+            
+          
+          
+            
+          
+        </ul>
+        <ul class="nav secondary-nav">
+          
+            
+<form class="pull-left" action="../search.html" method="get">
+  <input type="text" name="q" placeholder="Search" />
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+        </ul>
+      </div>
+    </div>
+  </div>
+
+<div class="container">
+   
+  <div class="section" id="module-nova_billing.utils">
+<span id="the-nova-billing-utils-module"></span><h1>The nova_billing.utils Module<a class="headerlink" href="#module-nova_billing.utils" title="Permalink to this headline">¶</a></h1>
+<p>Miscellaneous utility functions:</p>
+<ul class="simple">
+<li>usage calculations for different VM states;</li>
+<li>datetime manipulations;</li>
+<li>other.</li>
+</ul>
+<dl class="class">
+<dt id="nova_billing.utils.ContentType">
+<em class="property">class </em><tt class="descclassname">nova_billing.utils.</tt><tt class="descname">ContentType</tt><a class="headerlink" href="#nova_billing.utils.ContentType" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">object</span></tt></p>
+</dd></dl>
+
+<dl class="class">
+<dt id="nova_billing.utils.GlobalConf">
+<em class="property">class </em><tt class="descclassname">nova_billing.utils.</tt><tt class="descname">GlobalConf</tt><a class="headerlink" href="#nova_billing.utils.GlobalConf" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">object</span></tt></p>
+<dl class="method">
+<dt id="nova_billing.utils.GlobalConf.load_from_file">
+<tt class="descname">load_from_file</tt><big>(</big><em>filename</em><big>)</big><a class="headerlink" href="#nova_billing.utils.GlobalConf.load_from_file" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="nova_billing.utils.cost_add">
+<tt class="descclassname">nova_billing.utils.</tt><tt class="descname">cost_add</tt><big>(</big><em>cost</em>, <em>begin_at</em>, <em>end_at</em><big>)</big><a class="headerlink" href="#nova_billing.utils.cost_add" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="nova_billing.utils.datetime_to_str">
+<tt class="descclassname">nova_billing.utils.</tt><tt class="descname">datetime_to_str</tt><big>(</big><em>dt</em><big>)</big><a class="headerlink" href="#nova_billing.utils.datetime_to_str" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert datetime.datetime instance to string.
+Used for JSONization.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="nova_billing.utils.dict_add">
+<tt class="descclassname">nova_billing.utils.</tt><tt class="descname">dict_add</tt><big>(</big><em>a</em>, <em>b</em><big>)</big><a class="headerlink" href="#nova_billing.utils.dict_add" title="Permalink to this definition">¶</a></dt>
+<dd><p>Increment all keys in <tt class="docutils literal"><span class="pre">a</span></tt> on keys in <tt class="docutils literal"><span class="pre">b</span></tt>.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="nova_billing.utils.get_heart_client">
+<tt class="descclassname">nova_billing.utils.</tt><tt class="descname">get_heart_client</tt><big>(</big><big>)</big><a class="headerlink" href="#nova_billing.utils.get_heart_client" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="nova_billing.utils.get_keystone_client">
+<tt class="descclassname">nova_billing.utils.</tt><tt class="descname">get_keystone_client</tt><big>(</big><big>)</big><a class="headerlink" href="#nova_billing.utils.get_keystone_client" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="nova_billing.utils.get_nova_client">
+<tt class="descclassname">nova_billing.utils.</tt><tt class="descname">get_nova_client</tt><big>(</big><big>)</big><a class="headerlink" href="#nova_billing.utils.get_nova_client" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="nova_billing.utils.now">
+<tt class="descclassname">nova_billing.utils.</tt><tt class="descname">now</tt><big>(</big><big>)</big><a class="headerlink" href="#nova_billing.utils.now" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return current time in UTC.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="nova_billing.utils.str_to_datetime">
+<tt class="descclassname">nova_billing.utils.</tt><tt class="descname">str_to_datetime</tt><big>(</big><em>dtstr</em><big>)</big><a class="headerlink" href="#nova_billing.utils.str_to_datetime" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert string to datetime.datetime. String should be in ISO 8601 format.
+The function returns <tt class="xref docutils literal"><span class="pre">None</span></tt> for invalid date string.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="nova_billing.utils.total_seconds">
+<tt class="descclassname">nova_billing.utils.</tt><tt class="descname">total_seconds</tt><big>(</big><em>td</em><big>)</big><a class="headerlink" href="#nova_billing.utils.total_seconds" title="Permalink to this definition">¶</a></dt>
+<dd><p>This function is added for portability
+because timedelta.total_seconds() 
+was introduced only in python 2.7.</p>
+</dd></dl>
+
+</div>
+
+
+</div>
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right"><a href="#">Back to top</a></p>
+    <p>
+        &copy; Copyright 2012, Alessio Ababilov (Grid Dynamics Openstack Core Team).<br/>
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.7.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>

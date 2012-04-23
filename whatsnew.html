@@ -1,0 +1,167 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>What’s new &mdash; nova-billing v2.0.0 documentation</title>
+    <link rel="stylesheet" href="static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="static/bootstrap.css" type="text/css" />
+    <link rel="stylesheet" href="static/bootstrap-sphinx.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '2.0.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="static/jquery.js"></script>
+    <script type="text/javascript" src="static/underscore.js"></script>
+    <script type="text/javascript" src="static/doctools.js"></script>
+    <script type="text/javascript" src="static/bootstrap-dropdown.js"></script>
+    <script type="text/javascript" src="static/bootstrap-scrollspy.js"></script>
+    <link rel="top" title="nova-billing v2.0.0 documentation" href="index.html" />
+    <link rel="next" title="REST API" href="restapi.html" />
+    <link rel="prev" title="Quickstart" href="quickstart.html" />
+<script type="text/javascript">
+(function () {
+  /**
+   * Patch TOC list.
+   *
+   * Will mutate the underlying span to have a correct ul for nav.
+   *
+   * @param $span: Span containing nested UL's to mutate.
+   * @param minLevel: Starting level for nested lists. (1: global, 2: local).
+   */
+  var patchToc = function ($span, minLevel) {
+    var $tocList = $("<ul/>").attr('class', "dropdown-menu"),
+      findA;
+
+    // Find all a "internal" tags, traversing recursively.
+    findA = function ($elem, level) {
+      var level = level || 0,
+        $items = $elem.find("> li > a.internal, > ul, > li > ul");
+
+      // Iterate everything in order.
+      $items.each(function (index, item) {
+        var $item = $(item),
+          tag = item.tagName.toLowerCase(),
+          pad = 10 + ((level - minLevel) * 10);
+
+        if (tag === 'a' && level >= minLevel) {
+          // Add to existing padding.
+          $item.css('padding-left', pad + "px");
+          // Add list element.
+          $tocList.append($("<li/>").append($item));
+        } else if (tag === 'ul') {
+          // Recurse.
+          findA($item, level + 1);
+        }
+      });
+    };
+
+    // Start construction and return.
+    findA($span);
+
+    // Wipe out old list and patch in new one.
+    return $span.empty("ul").append($tocList);
+  };
+
+  $(document).ready(function () {
+    // Patch the global and local TOC's to be bootstrap-compliant.
+    patchToc($("span.globaltoc"), 1);
+    patchToc($("span.localtoc"), 2);
+
+    // Activate.
+    $('#topbar').dropdown();
+  });
+}());
+</script>
+
+  </head>
+  <body>
+  <div class="topbar" data-scrollspy="scrollspy" >
+    <div class="topbar-inner">
+      <div class="container">
+        <a class="brand" href="index.html">nova-billing v2.0.0 documentation</a>
+        <ul class="nav">
+          
+            <li class="dropdown" data-dropdown="dropdown">
+  <a href="index.html"
+     class="dropdown-toggle">Site</a>
+  <span class="globaltoc"><ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="architecture.html">Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quickstart</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="">What&#8217;s new</a></li>
+<li class="toctree-l1"><a class="reference internal" href="restapi.html">REST API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="config.html">Configuration</a></li>
+</ul>
+</span>
+</li>
+            
+          
+          
+            
+  <li><a href="quickstart.html"
+         title="Previous Chapter: Quickstart">&laquo; Quickstart</a></li>
+  <li><a href="restapi.html"
+         title="Next Chapter: REST API">REST API &raquo;</a></li>
+          
+          
+            
+          
+        </ul>
+        <ul class="nav secondary-nav">
+          
+            
+<form class="pull-left" action="search.html" method="get">
+  <input type="text" name="q" placeholder="Search" />
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+        </ul>
+      </div>
+    </div>
+  </div>
+
+<div class="container">
+   
+  <div class="section" id="what-s-new">
+<h1>What&#8217;s new<a class="headerlink" href="#what-s-new" title="Permalink to this headline">¶</a></h1>
+<p>Nova Billing v1 was a small, fast, and reliable application that stored billing
+information about instances and images and generated reports on resource usage.
+Its main fault was monolithic inflexible architecture. Adding a new resource type
+(for example, local volume) leaded to changes in API and data model.</p>
+<p>Nova Billing v2 is a totally new solution. Its API and architecture were rewritten
+from scratch. The new Nova Billing introduces extensible modularized system with separate components.</p>
+<p>Nova Billing v2 can charge arbitrary resources according to custom billing schemas
+and, naturally, with different tariffs.</p>
+<p>Nova Billing v2 does not depend on any UI for OpenStack Cloud (neither OpenStack Dashboard
+nor any other solution). It does not require a particular OpenStack release. Provided
+components allow integration with diablo and essex and this list can be extended.</p>
+<p>Nova Billing v2 is event-driven and does not consumes system resources for periodical
+polling.</p>
+<p>Nova Billing v2 uses a RESTful protocol, so it is easy to integrate it with miscellaneous
+user clients and to add third-party components notifying about arbitrary events.</p>
+</div>
+
+
+</div>
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right"><a href="#">Back to top</a></p>
+    <p>
+        &copy; Copyright 2012, Alessio Ababilov (Grid Dynamics Openstack Core Team).<br/>
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.7.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>
