@@ -1,0 +1,411 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Index &mdash; nova-billing v2.0.0 documentation</title>
+    <link rel="stylesheet" href="_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/bootstrap.css" type="text/css" />
+    <link rel="stylesheet" href="_static/bootstrap-sphinx.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '2.0.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/bootstrap-dropdown.js"></script>
+    <script type="text/javascript" src="_static/bootstrap-scrollspy.js"></script>
+    <link rel="top" title="nova-billing v2.0.0 documentation" href="index.html" />
+<script type="text/javascript">
+(function () {
+  /**
+   * Patch TOC list.
+   *
+   * Will mutate the underlying span to have a correct ul for nav.
+   *
+   * @param $span: Span containing nested UL's to mutate.
+   * @param minLevel: Starting level for nested lists. (1: global, 2: local).
+   */
+  var patchToc = function ($span, minLevel) {
+    var $tocList = $("<ul/>").attr('class', "dropdown-menu"),
+      findA;
+
+    // Find all a "internal" tags, traversing recursively.
+    findA = function ($elem, level) {
+      var level = level || 0,
+        $items = $elem.find("> li > a.internal, > ul, > li > ul");
+
+      // Iterate everything in order.
+      $items.each(function (index, item) {
+        var $item = $(item),
+          tag = item.tagName.toLowerCase(),
+          pad = 10 + ((level - minLevel) * 10);
+
+        if (tag === 'a' && level >= minLevel) {
+          // Add to existing padding.
+          $item.css('padding-left', pad + "px");
+          // Add list element.
+          $tocList.append($("<li/>").append($item));
+        } else if (tag === 'ul') {
+          // Recurse.
+          findA($item, level + 1);
+        }
+      });
+    };
+
+    // Start construction and return.
+    findA($span);
+
+    // Wipe out old list and patch in new one.
+    return $span.empty("ul").append($tocList);
+  };
+
+  $(document).ready(function () {
+    // Patch the global and local TOC's to be bootstrap-compliant.
+    patchToc($("span.globaltoc"), 1);
+    patchToc($("span.localtoc"), 2);
+
+    // Activate.
+    $('#topbar').dropdown();
+  });
+}());
+</script>
+
+  </head>
+  <body>
+  <div class="topbar" data-scrollspy="scrollspy" >
+    <div class="topbar-inner">
+      <div class="container">
+        <a class="brand" href="index.html">nova-billing v2.0.0 documentation</a>
+        <ul class="nav">
+          
+            <li class="dropdown" data-dropdown="dropdown">
+  <a href="index.html"
+     class="dropdown-toggle">Site</a>
+  <span class="globaltoc"><ul>
+<li class="toctree-l1"><a class="reference internal" href="glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="architecture.html">Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="whatsnew.html">What&#8217;s new</a></li>
+<li class="toctree-l1"><a class="reference internal" href="restapi.html">REST API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="config.html">Configuration</a></li>
+</ul>
+</span>
+</li>
+            
+          
+          
+
+   
+            
+          
+
+          
+            
+          
+        </ul>
+        <ul class="nav secondary-nav">
+          
+            
+<form class="pull-left" action="search.html" method="get">
+  <input type="text" name="q" placeholder="Search" />
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+        </ul>
+      </div>
+    </div>
+  </div>
+
+<div class="container">
+   
+
+   <h1 id="index">Index</h1>
+
+   <div class="genindex-jumpbox">
+   <a href="#A"><strong>A</strong></a> | <a href="#B"><strong>B</strong></a> | <a href="#C"><strong>C</strong></a> | <a href="#D"><strong>D</strong></a> | <a href="#E"><strong>E</strong></a> | <a href="#F"><strong>F</strong></a> | <a href="#G"><strong>G</strong></a> | <a href="#H"><strong>H</strong></a> | <a href="#I"><strong>I</strong></a> | <a href="#L"><strong>L</strong></a> | <a href="#M"><strong>M</strong></a> | <a href="#N"><strong>N</strong></a> | <a href="#P"><strong>P</strong></a> | <a href="#R"><strong>R</strong></a> | <a href="#S"><strong>S</strong></a> | <a href="#T"><strong>T</strong></a> | <a href="#U"><strong>U</strong></a> | <a href="#V"><strong>V</strong></a> | <a href="#W"><strong>W</strong></a> 
+   </div>
+<h2 id="A">A</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%" valign="top"><dl>
+    <dt><a href="api/nova_billing.heart.database.models.html#nova_billing.heart.database.models.Account">Account (class in nova_billing.heart.database.models)</a></dt>
+    <dt><a href="api/nova_billing.heart.database.api.html#nova_billing.heart.database.api.account_get_or_create">account_get_or_create() (in module nova_billing.heart.database.api)</a></dt>
+    <dt><a href="api/nova_billing.heart.database.models.html#nova_billing.heart.database.models.Resource.account_id">account_id (nova_billing.heart.database.models.Resource attribute)</a></dt>
+</dl></td>
+  <td style="width: 33%" valign="top"><dl>
+    <dt><a href="api/nova_billing.heart.database.api.html#nova_billing.heart.database.api.account_map">account_map() (in module nova_billing.heart.database.api)</a></dt>
+    <dt><a href="api/nova_billing.heart.database.models.html#nova_billing.heart.database.models.Resource.attrs">attrs (nova_billing.heart.database.models.Resource attribute)</a></dt>
+</dl></td>
+</tr></table>
+
+<h2 id="B">B</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%" valign="top"><dl>
+    <dt><a href="api/nova_billing.heart.database.models.html#nova_billing.heart.database.models.Segment.begin_at">begin_at (nova_billing.heart.database.models.Segment attribute)</a></dt>
+    <dt><a href="api/nova_billing.heart.database.api.html#nova_billing.heart.database.api.bill_on_interval">bill_on_interval() (in module nova_billing.heart.database.api)</a></dt>
+</dl></td>
+  <td style="width: 33%" valign="top"><dl>
+    <dt><a href="api/nova_billing.heart.database.models.html#nova_billing.heart.database.models.BillingBase">BillingBase (class in nova_billing.heart.database.models)</a></dt>
+    <dt><a href="api/nova_billing.client.html#nova_billing.client.BillingHeartClient">BillingHeartClient (class in nova_billing.client)</a></dt>
+</dl></td>
+</tr></table>
+
+<h2 id="C">C</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%" valign="top"><dl>
+    <dt><a href="api/nova_billing.heart.rest.html#nova_billing.heart.rest.change_tariff">change_tariff() (in module nova_billing.heart.rest)</a></dt>
+    <dt><a href="api/nova_billing.heart.rest.html#nova_billing.heart.rest.check_and_get_datatime">check_and_get_datatime() (in module nova_billing.heart.rest)</a></dt>
+    <dt><a href="api/nova_billing.heart.rest.html#nova_billing.heart.rest.check_attrs">check_attrs() (in module nova_billing.heart.rest)</a></dt>
+    <dt><a href="api/nova_billing.migrate.html#nova_billing.migrate.complain_usage">complain_usage() (in module nova_billing.migrate)</a></dt>
+    <dt><a href="api/nova_billing.os_amqp.amqp.html#nova_billing.os_amqp.amqp.Service.consume">consume() (nova_billing.os_amqp.amqp.Service method)</a></dt>
+</dl></td>
+  <td style="width: 33%" valign="top"><dl>
+    <dt><a href="api/nova_billing.utils.html#nova_billing.utils.ContentType">ContentType (class in nova_billing.utils)</a></dt>
+    <dt><a href="api/nova_billing.heart.database.models.html#nova_billing.heart.database.models.Segment.cost">cost (nova_billing.heart.database.models.Segment attribute)</a></dt>
+    <dt><a href="api/nova_billing.utils.html#nova_billing.utils.cost_add">cost_add() (in module nova_billing.utils)</a></dt>
+    <dt><a href="api/nova_billing.os_amqp.instances.html#nova_billing.os_amqp.instances.create_heart_request">create_heart_request() (in module nova_billing.os_amqp.instances)</a></dt>
+    <dd><dl>
+      <dt><a href="api/nova_billing.os_amqp.volumes.html#nova_billing.os_amqp.volumes.create_heart_request">(in module nova_billing.os_amqp.volumes)</a></dt>
+  </dl></dd>
+</dl></td>
+</tr></table>
+
+<h2 id="D">D</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%" valign="top"><dl>
+    <dt><a href="api/nova_billing.utils.html#nova_billing.utils.datetime_to_str">datetime_to_str() (in module nova_billing.utils)</a></dt>
+    <dt><a href="api/nova_billing.client.html#nova_billing.client.RestClient.delete">delete() (nova_billing.client.RestClient method)</a></dt>
+</dl></td>
+  <td style="width: 33%" valign="top"><dl>
+    <dt><a href="api/nova_billing.utils.html#nova_billing.utils.dict_add">dict_add() (in module nova_billing.utils)</a></dt>
+</dl></td>
+</tr></table>
+
+<h2 id="E">E</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%" valign="top"><dl>
+    <dt><a href="api/nova_billing.heart.database.models.html#nova_billing.heart.database.models.Segment.end_at">end_at (nova_billing.heart.database.models.Segment attribute)</a></dt>
+</dl></td>
+  <td style="width: 33%" valign="top"><dl>
+    <dt><a href="api/nova_billing.client.html#nova_billing.client.BillingHeartClient.event">event() (nova_billing.client.BillingHeartClient method)</a></dt>
+</dl></td>
+</tr></table>
+
+<h2 id="F">F</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%" valign="top"><dl>
+    <dt><a href="api/nova_billing.os_glance.html#nova_billing.os_glance.GlanceBillingFilter.factory">factory() (nova_billing.os_glance.GlanceBillingFilter class method)</a></dt>
+</dl></td>
+</tr></table>
+
+<h2 id="G">G</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%" valign="top"><dl>
+    <dt><a href="api/nova_billing.client.html#nova_billing.client.RestClient.get">get() (nova_billing.client.RestClient method)</a></dt>
+    <dt><a href="api/nova_billing.heart.rest.html#nova_billing.heart.rest.get_account">get_account() (in module nova_billing.heart.rest)</a></dt>
+    <dt><a href="api/nova_billing.heart.database.models.html#nova_billing.heart.database.models.Resource.get_attrs">get_attrs() (nova_billing.heart.database.models.Resource method)</a></dt>
+    <dt><a href="api/nova_billing.heart.rest.html#nova_billing.heart.rest.get_bill">get_bill() (in module nova_billing.heart.rest)</a></dt>
+    <dt><a href="api/nova_billing.os_amqp.amqp.html#nova_billing.os_amqp.amqp.Service.get_event_datetime">get_event_datetime() (nova_billing.os_amqp.amqp.Service method)</a></dt>
+    <dt><a href="api/nova_billing.os_amqp.instances.html#nova_billing.os_amqp.instances.get_flavor">get_flavor() (in module nova_billing.os_amqp.instances)</a></dt>
+    <dt><a href="api/nova_billing.utils.html#nova_billing.utils.get_heart_client">get_heart_client() (in module nova_billing.utils)</a></dt>
+    <dt><a href="api/nova_billing.os_amqp.instances.html#nova_billing.os_amqp.instances.get_instance_flavor">get_instance_flavor() (in module nova_billing.os_amqp.instances)</a></dt>
+</dl></td>
+  <td style="width: 33%" valign="top"><dl>
+    <dt><a href="api/nova_billing.utils.html#nova_billing.utils.get_keystone_client">get_keystone_client() (in module nova_billing.utils)</a></dt>
+    <dt><a href="api/nova_billing.utils.html#nova_billing.utils.get_nova_client">get_nova_client() (in module nova_billing.utils)</a></dt>
+    <dt><a href="api/nova_billing.heart.rest.html#nova_billing.heart.rest.get_period">get_period() (in module nova_billing.heart.rest)</a></dt>
+    <dt><a href="api/nova_billing.heart.rest.html#nova_billing.heart.rest.get_resource">get_resource() (in module nova_billing.heart.rest)</a></dt>
+    <dt><a href="api/nova_billing.heart.rest.html#nova_billing.heart.rest.get_tariff">get_tariff() (in module nova_billing.heart.rest)</a></dt>
+    <dt><a href="api/nova_billing.heart.rest.html#nova_billing.heart.rest.get_version">get_version() (in module nova_billing.heart.rest)</a></dt>
+    <dt><a href="api/nova_billing.os_glance.html#nova_billing.os_glance.GlanceBillingFilter">GlanceBillingFilter (class in nova_billing.os_glance)</a></dt>
+    <dt><a href="api/nova_billing.utils.html#nova_billing.utils.GlobalConf">GlobalConf (class in nova_billing.utils)</a></dt>
+</dl></td>
+</tr></table>
+
+<h2 id="H">H</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%" valign="top"><dl>
+    <dt><a href="api/nova_billing.os_amqp.amqp.html#nova_billing.os_amqp.amqp.Service.heart_request_interceptors">heart_request_interceptors (nova_billing.os_amqp.amqp.Service attribute)</a></dt>
+</dl></td>
+  <td style="width: 33%" valign="top"><dl>
+    <dt><a href="api/nova_billing.client.html#nova_billing.client.RestClient.http_log">http_log() (nova_billing.client.RestClient method)</a></dt>
+</dl></td>
+</tr></table>
+
+<h2 id="I">I</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%" valign="top"><dl>
+    <dt><a href="api/nova_billing.heart.database.models.html#nova_billing.heart.database.models.Account.id">id (nova_billing.heart.database.models.Account attribute)</a></dt>
+    <dd><dl>
+      <dt><a href="api/nova_billing.heart.database.models.html#nova_billing.heart.database.models.Resource.id">(nova_billing.heart.database.models.Resource attribute)</a></dt>
+      <dt><a href="api/nova_billing.heart.database.models.html#nova_billing.heart.database.models.Segment.id">(nova_billing.heart.database.models.Segment attribute)</a></dt>
+  </dl></dd>
+</dl></td>
+</tr></table>
+
+<h2 id="L">L</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%" valign="top"><dl>
+    <dt><a href="api/nova_billing.utils.html#nova_billing.utils.GlobalConf.load_from_file">load_from_file() (nova_billing.utils.GlobalConf method)</a></dt>
+</dl></td>
+</tr></table>
+
+<h2 id="M">M</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%" valign="top"><dl>
+    <dt><a href="api/nova_billing.heart.main.html#nova_billing.heart.main.main">main() (in module nova_billing.heart.main)</a></dt>
+    <dd><dl>
+      <dt><a href="api/nova_billing.migrate.html#nova_billing.migrate.main">(in module nova_billing.migrate)</a></dt>
+      <dt><a href="api/nova_billing.os_amqp.main.html#nova_billing.os_amqp.main.main">(in module nova_billing.os_amqp.main)</a></dt>
+  </dl></dd>
+    <dt><a href="api/nova_billing.migrate.html#nova_billing.migrate.migrate_images">migrate_images() (in module nova_billing.migrate)</a></dt>
+</dl></td>
+  <td style="width: 33%" valign="top"><dl>
+    <dt><a href="api/nova_billing.migrate.html#nova_billing.migrate.migrate_instances">migrate_instances() (in module nova_billing.migrate)</a></dt>
+    <dt><a href="api/nova_billing.heart.database.models.html#nova_billing.heart.database.models.Tariff.multiplier">multiplier (nova_billing.heart.database.models.Tariff attribute)</a></dt>
+</dl></td>
+</tr></table>
+
+<h2 id="N">N</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%" valign="top"><dl>
+    <dt><a href="api/nova_billing.heart.database.models.html#nova_billing.heart.database.models.Account.name">name (nova_billing.heart.database.models.Account attribute)</a></dt>
+    <dd><dl>
+      <dt><a href="api/nova_billing.heart.database.models.html#nova_billing.heart.database.models.Resource.name">(nova_billing.heart.database.models.Resource attribute)</a></dt>
+  </dl></dd>
+    <dt><a href="api/nova_billing.client.html#module-nova_billing.client">nova_billing.client (module)</a></dt>
+    <dt><a href="api/nova_billing.heart.database.api.html#module-nova_billing.heart.database.api">nova_billing.heart.database.api (module)</a></dt>
+    <dt><a href="api/nova_billing.heart.database.models.html#module-nova_billing.heart.database.models">nova_billing.heart.database.models (module)</a></dt>
+    <dt><a href="api/nova_billing.heart.main.html#module-nova_billing.heart.main">nova_billing.heart.main (module)</a></dt>
+    <dt><a href="api/nova_billing.heart.rest.html#module-nova_billing.heart.rest">nova_billing.heart.rest (module)</a></dt>
+    <dt><a href="api/nova_billing.migrate.html#module-nova_billing.migrate">nova_billing.migrate (module)</a></dt>
+    <dt><a href="api/nova_billing.os_amqp.amqp.html#module-nova_billing.os_amqp.amqp">nova_billing.os_amqp.amqp (module)</a></dt>
+</dl></td>
+  <td style="width: 33%" valign="top"><dl>
+    <dt><a href="api/nova_billing.os_amqp.instances.html#module-nova_billing.os_amqp.instances">nova_billing.os_amqp.instances (module)</a></dt>
+    <dt><a href="api/nova_billing.os_amqp.main.html#module-nova_billing.os_amqp.main">nova_billing.os_amqp.main (module)</a></dt>
+    <dt><a href="api/nova_billing.os_amqp.volumes.html#module-nova_billing.os_amqp.volumes">nova_billing.os_amqp.volumes (module)</a></dt>
+    <dt><a href="api/nova_billing.os_glance.html#module-nova_billing.os_glance">nova_billing.os_glance (module)</a></dt>
+    <dt><a href="api/nova_billing.utils.html#module-nova_billing.utils">nova_billing.utils (module)</a></dt>
+    <dt><a href="api/nova_billing.version.html#module-nova_billing.version">nova_billing.version (module)</a></dt>
+    <dt><a href="api/nova_billing.utils.html#nova_billing.utils.now">now() (in module nova_billing.utils)</a></dt>
+</dl></td>
+</tr></table>
+
+<h2 id="P">P</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%" valign="top"><dl>
+    <dt><a href="api/nova_billing.heart.database.models.html#nova_billing.heart.database.models.Resource.parent_id">parent_id (nova_billing.heart.database.models.Resource attribute)</a></dt>
+    <dt><a href="api/nova_billing.client.html#nova_billing.client.RestClient.post">post() (nova_billing.client.RestClient method)</a></dt>
+    <dt><a href="api/nova_billing.heart.rest.html#nova_billing.heart.rest.post_event">post_event() (in module nova_billing.heart.rest)</a></dt>
+    <dt><a href="api/nova_billing.heart.rest.html#nova_billing.heart.rest.post_resource">post_resource() (in module nova_billing.heart.rest)</a></dt>
+</dl></td>
+  <td style="width: 33%" valign="top"><dl>
+    <dt><a href="api/nova_billing.heart.rest.html#nova_billing.heart.rest.process_event">process_event() (in module nova_billing.heart.rest)</a></dt>
+    <dd><dl>
+      <dt><a href="api/nova_billing.os_amqp.amqp.html#nova_billing.os_amqp.amqp.Service.process_event">(nova_billing.os_amqp.amqp.Service method)</a></dt>
+  </dl></dd>
+    <dt><a href="api/nova_billing.os_amqp.amqp.html#nova_billing.os_amqp.amqp.Service.process_message">process_message() (nova_billing.os_amqp.amqp.Service method)</a></dt>
+    <dt><a href="api/nova_billing.heart.rest.html#nova_billing.heart.rest.process_resource">process_resource() (in module nova_billing.heart.rest)</a></dt>
+    <dt><a href="api/nova_billing.client.html#nova_billing.client.RestClient.put">put() (nova_billing.client.RestClient method)</a></dt>
+</dl></td>
+</tr></table>
+
+<h2 id="R">R</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%" valign="top"><dl>
+    <dt><a href="api/nova_billing.os_amqp.amqp.html#nova_billing.os_amqp.amqp.Service.reconnect">reconnect() (nova_billing.os_amqp.amqp.Service method)</a></dt>
+    <dt><a href="api/nova_billing.client.html#nova_billing.client.RestClient.request">request() (nova_billing.client.RestClient method)</a></dt>
+    <dt><a href="api/nova_billing.heart.rest.html#nova_billing.heart.rest.request_json">request_json() (in module nova_billing.heart.rest)</a></dt>
+    <dt><a href="api/nova_billing.heart.database.models.html#nova_billing.heart.database.models.Resource">Resource (class in nova_billing.heart.database.models)</a></dt>
+    <dt><a href="api/nova_billing.heart.database.api.html#nova_billing.heart.database.api.resource_find">resource_find() (in module nova_billing.heart.database.api)</a></dt>
+    <dt><a href="api/nova_billing.heart.database.api.html#nova_billing.heart.database.api.resource_get_or_create">resource_get_or_create() (in module nova_billing.heart.database.api)</a></dt>
+</dl></td>
+  <td style="width: 33%" valign="top"><dl>
+    <dt><a href="api/nova_billing.heart.database.models.html#nova_billing.heart.database.models.Segment.resource_id">resource_id (nova_billing.heart.database.models.Segment attribute)</a></dt>
+    <dt><a href="api/nova_billing.heart.database.api.html#nova_billing.heart.database.api.resource_segment_end">resource_segment_end() (in module nova_billing.heart.database.api)</a></dt>
+    <dt><a href="api/nova_billing.migrate.html#nova_billing.migrate.ResourceTypes">ResourceTypes (class in nova_billing.migrate)</a></dt>
+    <dt><a href="api/nova_billing.client.html#nova_billing.client.RestClient">RestClient (class in nova_billing.client)</a></dt>
+    <dt><a href="api/nova_billing.heart.database.models.html#nova_billing.heart.database.models.Resource.rtype">rtype (nova_billing.heart.database.models.Resource attribute)</a></dt>
+    <dd><dl>
+      <dt><a href="api/nova_billing.heart.database.models.html#nova_billing.heart.database.models.Tariff.rtype">(nova_billing.heart.database.models.Tariff attribute)</a></dt>
+  </dl></dd>
+</dl></td>
+</tr></table>
+
+<h2 id="S">S</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%" valign="top"><dl>
+    <dt><a href="api/nova_billing.heart.database.models.html#nova_billing.heart.database.models.Segment">Segment (class in nova_billing.heart.database.models)</a></dt>
+    <dt><a href="api/nova_billing.os_amqp.amqp.html#nova_billing.os_amqp.amqp.Service">Service (class in nova_billing.os_amqp.amqp)</a></dt>
+    <dt><a href="api/nova_billing.heart.database.models.html#nova_billing.heart.database.models.Resource.set_attrs">set_attrs() (nova_billing.heart.database.models.Resource method)</a></dt>
+</dl></td>
+  <td style="width: 33%" valign="top"><dl>
+    <dt><a href="api/nova_billing.os_amqp.amqp.html#nova_billing.os_amqp.amqp.Service.start">start() (nova_billing.os_amqp.amqp.Service method)</a></dt>
+    <dt><a href="api/nova_billing.os_amqp.amqp.html#nova_billing.os_amqp.amqp.Service.stop">stop() (nova_billing.os_amqp.amqp.Service method)</a></dt>
+    <dt><a href="api/nova_billing.utils.html#nova_billing.utils.str_to_datetime">str_to_datetime() (in module nova_billing.utils)</a></dt>
+</dl></td>
+</tr></table>
+
+<h2 id="T">T</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%" valign="top"><dl>
+    <dt><a href="api/nova_billing.heart.database.models.html#nova_billing.heart.database.models.Tariff">Tariff (class in nova_billing.heart.database.models)</a></dt>
+    <dt><a href="api/nova_billing.heart.database.api.html#nova_billing.heart.database.api.tariff_map">tariff_map() (in module nova_billing.heart.database.api)</a></dt>
+    <dt><a href="api/nova_billing.heart.database.api.html#nova_billing.heart.database.api.tariffs_migrate">tariffs_migrate() (in module nova_billing.heart.database.api)</a></dt>
+</dl></td>
+  <td style="width: 33%" valign="top"><dl>
+    <dt><a href="api/nova_billing.heart.rest.html#nova_billing.heart.rest.to_json">to_json() (in module nova_billing.heart.rest)</a></dt>
+    <dt><a href="api/nova_billing.utils.html#nova_billing.utils.total_seconds">total_seconds() (in module nova_billing.utils)</a></dt>
+</dl></td>
+</tr></table>
+
+<h2 id="U">U</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%" valign="top"><dl>
+    <dt><a href="api/nova_billing.utils.html#nova_billing.utils.usage_to_hours">usage_to_hours() (in module nova_billing.utils)</a></dt>
+</dl></td>
+</tr></table>
+
+<h2 id="V">V</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%" valign="top"><dl>
+    <dt><a href="api/nova_billing.version.html#nova_billing.version.version_string">version_string() (in module nova_billing.version)</a></dt>
+</dl></td>
+  <td style="width: 33%" valign="top"><dl>
+    <dt><a href="api/nova_billing.os_amqp.instances.html#nova_billing.os_amqp.instances.vm_states">vm_states (class in nova_billing.os_amqp.instances)</a></dt>
+</dl></td>
+</tr></table>
+
+<h2 id="W">W</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%" valign="top"><dl>
+    <dt><a href="api/nova_billing.os_amqp.amqp.html#nova_billing.os_amqp.amqp.Service.wait">wait() (nova_billing.os_amqp.amqp.Service method)</a></dt>
+</dl></td>
+</tr></table>
+
+
+
+</div>
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right"><a href="#">Back to top</a></p>
+    <p>
+        &copy; Copyright 2012, Alessio Ababilov (Grid Dynamics Openstack Core Team).<br/>
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.7.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>

@@ -1,0 +1,609 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>REST API &mdash; nova-billing v2.0.0 documentation</title>
+    <link rel="stylesheet" href="_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/bootstrap.css" type="text/css" />
+    <link rel="stylesheet" href="_static/bootstrap-sphinx.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '2.0.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/bootstrap-dropdown.js"></script>
+    <script type="text/javascript" src="_static/bootstrap-scrollspy.js"></script>
+    <link rel="top" title="nova-billing v2.0.0 documentation" href="index.html" />
+    <link rel="next" title="Configuration" href="config.html" />
+    <link rel="prev" title="What’s new" href="whatsnew.html" />
+<script type="text/javascript">
+(function () {
+  /**
+   * Patch TOC list.
+   *
+   * Will mutate the underlying span to have a correct ul for nav.
+   *
+   * @param $span: Span containing nested UL's to mutate.
+   * @param minLevel: Starting level for nested lists. (1: global, 2: local).
+   */
+  var patchToc = function ($span, minLevel) {
+    var $tocList = $("<ul/>").attr('class', "dropdown-menu"),
+      findA;
+
+    // Find all a "internal" tags, traversing recursively.
+    findA = function ($elem, level) {
+      var level = level || 0,
+        $items = $elem.find("> li > a.internal, > ul, > li > ul");
+
+      // Iterate everything in order.
+      $items.each(function (index, item) {
+        var $item = $(item),
+          tag = item.tagName.toLowerCase(),
+          pad = 10 + ((level - minLevel) * 10);
+
+        if (tag === 'a' && level >= minLevel) {
+          // Add to existing padding.
+          $item.css('padding-left', pad + "px");
+          // Add list element.
+          $tocList.append($("<li/>").append($item));
+        } else if (tag === 'ul') {
+          // Recurse.
+          findA($item, level + 1);
+        }
+      });
+    };
+
+    // Start construction and return.
+    findA($span);
+
+    // Wipe out old list and patch in new one.
+    return $span.empty("ul").append($tocList);
+  };
+
+  $(document).ready(function () {
+    // Patch the global and local TOC's to be bootstrap-compliant.
+    patchToc($("span.globaltoc"), 1);
+    patchToc($("span.localtoc"), 2);
+
+    // Activate.
+    $('#topbar').dropdown();
+  });
+}());
+</script>
+
+  </head>
+  <body>
+  <div class="topbar" data-scrollspy="scrollspy" >
+    <div class="topbar-inner">
+      <div class="container">
+        <a class="brand" href="index.html">nova-billing v2.0.0 documentation</a>
+        <ul class="nav">
+          
+            <li class="dropdown" data-dropdown="dropdown">
+  <a href="index.html"
+     class="dropdown-toggle">Site</a>
+  <span class="globaltoc"><ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="architecture.html">Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="whatsnew.html">What&#8217;s new</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="">REST API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="config.html">Configuration</a></li>
+</ul>
+</span>
+</li>
+            
+<li class="dropdown" data-dropdown="dropdown">
+  <a href="#"
+     class="dropdown-toggle">Page</a>
+  <span class="localtoc"><ul>
+<li><a class="reference internal" href="#">REST API</a><ul>
+<li><a class="reference internal" href="#overview">Overview</a></li>
+<li><a class="reference internal" href="#version">Version</a></li>
+<li><a class="reference internal" href="#bill">Bill</a></li>
+<li><a class="reference internal" href="#event">Event</a></li>
+<li><a class="reference internal" href="#tariff">Tariff</a></li>
+<li><a class="reference internal" href="#resource">Resource</a></li>
+<li><a class="reference internal" href="#account">Account</a></li>
+</ul>
+</li>
+</ul>
+</span>
+</li>
+
+          
+          
+            
+  <li><a href="whatsnew.html"
+         title="Previous Chapter: What’s new">&laquo; What’s new</a></li>
+  <li><a href="config.html"
+         title="Next Chapter: Configuration">Configuration &raquo;</a></li>
+          
+          
+            
+          
+        </ul>
+        <ul class="nav secondary-nav">
+          
+            
+<form class="pull-left" action="search.html" method="get">
+  <input type="text" name="q" placeholder="Search" />
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+        </ul>
+      </div>
+    </div>
+  </div>
+
+<div class="container">
+   
+  <div class="section" id="rest-api">
+<h1>REST API<a class="headerlink" href="#rest-api" title="Permalink to this headline">¶</a></h1>
+<div class="contents local topic" id="contents">
+<ul class="simple">
+<li><a class="reference internal" href="#overview" id="id1">Overview</a></li>
+<li><a class="reference internal" href="#version" id="id2">Version</a></li>
+<li><a class="reference internal" href="#bill" id="id3">Bill</a></li>
+<li><a class="reference internal" href="#event" id="id4">Event</a></li>
+<li><a class="reference internal" href="#tariff" id="id5">Tariff</a></li>
+<li><a class="reference internal" href="#resource" id="id6">Resource</a></li>
+<li><a class="reference internal" href="#account" id="id7">Account</a></li>
+</ul>
+</div>
+<div class="section" id="overview">
+<h2><a class="toc-backref" href="#id1">Overview</a><a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h2>
+<p>Nova Billing Heart supports the following requests:</p>
+<ul class="simple">
+<li><tt class="docutils literal"><span class="pre">GET</span> <span class="pre">/version</span></tt>;</li>
+<li><tt class="docutils literal"><span class="pre">GET</span> <span class="pre">/bill</span></tt>;</li>
+<li><tt class="docutils literal"><span class="pre">POST</span> <span class="pre">/event</span></tt>;</li>
+<li><tt class="docutils literal"><span class="pre">GET</span> <span class="pre">/tariff</span></tt> and <tt class="docutils literal"><span class="pre">POST</span> <span class="pre">/tariff</span></tt>;</li>
+<li><tt class="docutils literal"><span class="pre">GET</span> <span class="pre">/resource</span></tt> and <tt class="docutils literal"><span class="pre">POST</span> <span class="pre">/resource</span></tt>;</li>
+<li><tt class="docutils literal"><span class="pre">GET</span> <span class="pre">/account</span></tt>.</li>
+</ul>
+<p>All these requests return JSON on success. Data for POST requests also must be JSON.
+We use JSON schema (<a class="reference external" href="http://json-schema.org/">http://json-schema.org/</a>) for format description.</p>
+<p>Date and time are always UTC in order to avoid problems with timezones and daylight saving time.</p>
+</div>
+<div class="section" id="version">
+<h2><a class="toc-backref" href="#id2">Version</a><a class="headerlink" href="#version" title="Permalink to this headline">¶</a></h2>
+<p><tt class="docutils literal"><span class="pre">GET</span> <span class="pre">/version</span></tt> returns information about application name, version, and available URLs.</p>
+</div>
+<div class="section" id="bill">
+<h2><a class="toc-backref" href="#id3">Bill</a><a class="headerlink" href="#bill" title="Permalink to this headline">¶</a></h2>
+<p><tt class="docutils literal"><span class="pre">GET</span> <span class="pre">/bill</span></tt> returns information about charged money for requested account on requested time period by resource.</p>
+<p>Time period can be specified in two forms.</p>
+<ol class="arabic simple">
+<li>Start and end are given explicitly with <tt class="docutils literal"><span class="pre">period_start</span></tt>
+and <tt class="docutils literal"><span class="pre">period_end</span></tt> request parameters.</li>
+<li><tt class="docutils literal"><span class="pre">time_period</span></tt> request parameter is used. It can be a year
+(specified as <tt class="docutils literal"><span class="pre">year</span></tt>), a month (<tt class="docutils literal"><span class="pre">year-month</span></tt>), or a day
+(<tt class="docutils literal"><span class="pre">year-month-day</span></tt>). All components are integers. Month and
+day numbers start with 1.</li>
+</ol>
+<p>If period is omitted, the bill will be for the current month.</p>
+<p>Account should be specified by its name with <tt class="docutils literal"><span class="pre">account</span></tt> argument.</p>
+<p>Billing report has the following schema:</p>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="p">{</span>
+    <span class="s2">&quot;type&quot;</span><span class="o">:</span> <span class="s2">&quot;object&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;description&quot;</span><span class="o">:</span> <span class="s2">&quot;Billing report&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;properties&quot;</span><span class="o">:</span> <span class="p">{</span>
+        <span class="s2">&quot;period_start&quot;</span><span class="o">:</span> <span class="p">{</span>
+            <span class="s2">&quot;required&quot;</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+            <span class="s2">&quot;type&quot;</span><span class="o">:</span> <span class="s2">&quot;string&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;description&quot;</span><span class="o">:</span> <span class="s2">&quot;The beginning of the requested period&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;format&quot;</span><span class="o">:</span> <span class="s2">&quot;date-time&quot;</span>
+        <span class="p">},</span>
+        <span class="s2">&quot;period_end&quot;</span><span class="o">:</span> <span class="p">{</span>
+            <span class="s2">&quot;required&quot;</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+            <span class="s2">&quot;type&quot;</span><span class="o">:</span> <span class="s2">&quot;string&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;description&quot;</span><span class="o">:</span> <span class="s2">&quot;The end of the requested period&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;format&quot;</span><span class="o">:</span> <span class="s2">&quot;date-time&quot;</span>
+        <span class="p">},</span>
+        <span class="s2">&quot;bill&quot;</span><span class="o">:</span> <span class="p">{</span>
+            <span class="s2">&quot;items&quot;</span><span class="o">:</span> <span class="p">{</span>
+                <span class="s2">&quot;type&quot;</span><span class="o">:</span> <span class="s2">&quot;object&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;description&quot;</span><span class="o">:</span> <span class="s2">&quot;Array of account billing reports&quot;</span>
+            <span class="p">},</span>
+            <span class="s2">&quot;required&quot;</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+            <span class="s2">&quot;type&quot;</span><span class="o">:</span> <span class="s2">&quot;array&quot;</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Account billing report has the following schema:</p>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="p">{</span>
+    <span class="s2">&quot;type&quot;</span><span class="o">:</span> <span class="s2">&quot;object&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;description&quot;</span><span class="o">:</span> <span class="s2">&quot;Account billing report&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;properties&quot;</span><span class="o">:</span> <span class="p">{</span>
+        <span class="s2">&quot;id&quot;</span><span class="o">:</span> <span class="p">{</span>
+            <span class="s2">&quot;required&quot;</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+            <span class="s2">&quot;type&quot;</span><span class="o">:</span> <span class="s2">&quot;integer&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;description&quot;</span><span class="o">:</span> <span class="s2">&quot;Account ID&quot;</span>
+        <span class="p">},</span>
+        <span class="s2">&quot;name&quot;</span><span class="o">:</span> <span class="p">{</span>
+            <span class="s2">&quot;required&quot;</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+            <span class="s2">&quot;type&quot;</span><span class="o">:</span> <span class="s2">&quot;string&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;description&quot;</span><span class="o">:</span> <span class="s2">&quot;Account name&quot;</span>
+        <span class="p">},</span>
+        <span class="s2">&quot;resources&quot;</span><span class="o">:</span> <span class="p">{</span>
+            <span class="s2">&quot;items&quot;</span><span class="o">:</span> <span class="p">{</span>
+                <span class="s2">&quot;type&quot;</span><span class="o">:</span> <span class="s2">&quot;object&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;description&quot;</span><span class="o">:</span> <span class="s2">&quot;Array of resource billing reports&quot;</span>
+            <span class="p">},</span>
+            <span class="s2">&quot;required&quot;</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+            <span class="s2">&quot;type&quot;</span><span class="o">:</span> <span class="s2">&quot;array&quot;</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Resource billing report has the following schema:</p>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="p">{</span>
+    <span class="s2">&quot;type&quot;</span><span class="o">:</span> <span class="s2">&quot;object&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;description&quot;</span><span class="o">:</span> <span class="s2">&quot;Resource billing report&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;properties&quot;</span><span class="o">:</span> <span class="p">{</span>
+        <span class="s2">&quot;id&quot;</span><span class="o">:</span> <span class="p">{</span>
+            <span class="s2">&quot;required&quot;</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+            <span class="s2">&quot;type&quot;</span><span class="o">:</span> <span class="s2">&quot;integer&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;description&quot;</span><span class="o">:</span> <span class="s2">&quot;Resource ID&quot;</span>
+        <span class="p">},</span>
+        <span class="s2">&quot;rtype&quot;</span><span class="o">:</span> <span class="p">{</span>
+            <span class="s2">&quot;required&quot;</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+            <span class="s2">&quot;type&quot;</span><span class="o">:</span> <span class="s2">&quot;string&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;description&quot;</span><span class="o">:</span> <span class="s2">&quot;Resource type&quot;</span>
+        <span class="p">},</span>
+        <span class="s2">&quot;name&quot;</span><span class="o">:</span> <span class="p">{</span>
+            <span class="s2">&quot;required&quot;</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+            <span class="s2">&quot;type&quot;</span><span class="o">:</span> <span class="p">[</span>
+                <span class="s2">&quot;string&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;null&quot;</span>
+            <span class="p">],</span>
+            <span class="s2">&quot;description&quot;</span><span class="o">:</span> <span class="s2">&quot;Resource name or null if none&quot;</span>
+        <span class="p">},</span>
+        <span class="s2">&quot;parent_id&quot;</span><span class="o">:</span> <span class="p">{</span>
+            <span class="s2">&quot;required&quot;</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+            <span class="s2">&quot;type&quot;</span><span class="o">:</span> <span class="p">[</span>
+                <span class="s2">&quot;string&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;null&quot;</span>
+            <span class="p">],</span>
+            <span class="s2">&quot;description&quot;</span><span class="o">:</span> <span class="s2">&quot;ID of resource parent or null if none&quot;</span>
+        <span class="p">},</span>
+        <span class="s2">&quot;created_at&quot;</span><span class="o">:</span> <span class="p">{</span>
+            <span class="s2">&quot;required&quot;</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+            <span class="s2">&quot;type&quot;</span><span class="o">:</span> <span class="s2">&quot;string&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;description&quot;</span><span class="o">:</span> <span class="s2">&quot;Date of object creation&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;format&quot;</span><span class="o">:</span> <span class="s2">&quot;date-time&quot;</span>
+        <span class="p">},</span>
+        <span class="s2">&quot;destroyed_at&quot;</span><span class="o">:</span> <span class="p">{</span>
+            <span class="s2">&quot;required&quot;</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+            <span class="s2">&quot;type&quot;</span><span class="o">:</span> <span class="p">[</span>
+                <span class="s2">&quot;string&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;null&quot;</span>
+            <span class="p">],</span>
+            <span class="s2">&quot;description&quot;</span><span class="o">:</span> <span class="s2">&quot;Date of object destruction (termination) or null if not destroyed&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;format&quot;</span><span class="o">:</span> <span class="s2">&quot;date-time&quot;</span>
+        <span class="p">}</span>
+        <span class="s2">&quot;cost&quot;</span><span class="o">:</span> <span class="p">{</span>
+            <span class="s2">&quot;required&quot;</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+            <span class="s2">&quot;type&quot;</span><span class="o">:</span> <span class="s2">&quot;number&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;description&quot;</span><span class="o">:</span> <span class="s2">&quot;Billed money on the requested period&quot;</span>
+        <span class="p">},</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Example of billing report:</p>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="p">{</span>
+    <span class="s2">&quot;bill&quot;</span><span class="o">:</span> <span class="p">[</span>
+        <span class="p">{</span>
+            <span class="s2">&quot;id&quot;</span><span class="o">:</span> <span class="mi">1</span><span class="p">,</span>
+            <span class="s2">&quot;name&quot;</span><span class="o">:</span> <span class="s2">&quot;1&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;resources&quot;</span><span class="o">:</span> <span class="p">[</span>
+                <span class="p">{</span>
+                    <span class="s2">&quot;cost&quot;</span><span class="o">:</span> <span class="mf">0.0</span><span class="p">,</span>
+                    <span class="s2">&quot;created_at&quot;</span><span class="o">:</span> <span class="s2">&quot;2012-01-19T17:37:24.024440Z&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;destroyed_at&quot;</span><span class="o">:</span> <span class="kc">null</span><span class="p">,</span>
+                    <span class="s2">&quot;id&quot;</span><span class="o">:</span> <span class="mi">46</span><span class="p">,</span>
+                    <span class="s2">&quot;name&quot;</span><span class="o">:</span> <span class="kc">null</span><span class="p">,</span>
+                    <span class="s2">&quot;parent_id&quot;</span><span class="o">:</span> <span class="mi">45</span><span class="p">,</span>
+                    <span class="s2">&quot;rtype&quot;</span><span class="o">:</span> <span class="s2">&quot;local_gb&quot;</span>
+                <span class="p">},</span>
+                <span class="p">{</span>
+                    <span class="s2">&quot;cost&quot;</span><span class="o">:</span> <span class="mf">8434.1570370370373</span><span class="p">,</span>
+                    <span class="s2">&quot;created_at&quot;</span><span class="o">:</span> <span class="s2">&quot;2012-01-19T17:37:24.024440Z&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;destroyed_at&quot;</span><span class="o">:</span> <span class="kc">null</span><span class="p">,</span>
+                    <span class="s2">&quot;id&quot;</span><span class="o">:</span> <span class="mi">47</span><span class="p">,</span>
+                    <span class="s2">&quot;name&quot;</span><span class="o">:</span> <span class="kc">null</span><span class="p">,</span>
+                    <span class="s2">&quot;parent_id&quot;</span><span class="o">:</span> <span class="mi">45</span><span class="p">,</span>
+                    <span class="s2">&quot;rtype&quot;</span><span class="o">:</span> <span class="s2">&quot;memory_mb&quot;</span>
+                <span class="p">},</span>
+                <span class="p">{</span>
+                    <span class="s2">&quot;cost&quot;</span><span class="o">:</span> <span class="mf">16.472962962962963</span><span class="p">,</span>
+                    <span class="s2">&quot;created_at&quot;</span><span class="o">:</span> <span class="s2">&quot;2012-01-19T17:37:24.024440Z&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;destroyed_at&quot;</span><span class="o">:</span> <span class="kc">null</span><span class="p">,</span>
+                    <span class="s2">&quot;id&quot;</span><span class="o">:</span> <span class="mi">48</span><span class="p">,</span>
+                    <span class="s2">&quot;name&quot;</span><span class="o">:</span> <span class="kc">null</span><span class="p">,</span>
+                    <span class="s2">&quot;parent_id&quot;</span><span class="o">:</span> <span class="mi">45</span><span class="p">,</span>
+                    <span class="s2">&quot;rtype&quot;</span><span class="o">:</span> <span class="s2">&quot;vcpus&quot;</span>
+                <span class="p">},</span>
+                <span class="p">{</span>
+                    <span class="s2">&quot;cost&quot;</span><span class="o">:</span> <span class="mf">0.0</span><span class="p">,</span>
+                    <span class="s2">&quot;created_at&quot;</span><span class="o">:</span> <span class="s2">&quot;2012-01-19T17:37:24.024440Z&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;destroyed_at&quot;</span><span class="o">:</span> <span class="kc">null</span><span class="p">,</span>
+                    <span class="s2">&quot;id&quot;</span><span class="o">:</span> <span class="mi">45</span><span class="p">,</span>
+                    <span class="s2">&quot;name&quot;</span><span class="o">:</span> <span class="s2">&quot;12&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;parent_id&quot;</span><span class="o">:</span> <span class="kc">null</span><span class="p">,</span>
+                    <span class="s2">&quot;rtype&quot;</span><span class="o">:</span> <span class="s2">&quot;nova/instance&quot;</span>
+                <span class="p">},</span>
+                <span class="p">{</span>
+                    <span class="s2">&quot;cost&quot;</span><span class="o">:</span> <span class="mf">72559316.557037041</span><span class="p">,</span>
+                    <span class="s2">&quot;created_at&quot;</span><span class="o">:</span> <span class="s2">&quot;2012-01-19T16:23:20.293482Z&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;destroyed_at&quot;</span><span class="o">:</span> <span class="kc">null</span><span class="p">,</span>
+                    <span class="s2">&quot;id&quot;</span><span class="o">:</span> <span class="mi">75</span><span class="p">,</span>
+                    <span class="s2">&quot;name&quot;</span><span class="o">:</span> <span class="s2">&quot;22&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;parent_id&quot;</span><span class="o">:</span> <span class="kc">null</span><span class="p">,</span>
+                    <span class="s2">&quot;rtype&quot;</span><span class="o">:</span> <span class="s2">&quot;glance/image&quot;</span>
+                <span class="p">}</span>
+            <span class="p">]</span>
+        <span class="p">}</span>
+    <span class="p">],</span>
+    <span class="s2">&quot;period_end&quot;</span><span class="o">:</span> <span class="s2">&quot;2012-05-01T00:00:00Z&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;period_start&quot;</span><span class="o">:</span> <span class="s2">&quot;2012-04-01T00:00:00Z&quot;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Examples of billing queries.</p>
+<p>In these examples, <tt class="docutils literal"><span class="pre">999888777666</span></tt> is assumed to be a valid Admin&#8217;s token.</p>
+<p>Bill for account <tt class="docutils literal"><span class="pre">1</span></tt> on 2012 year:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span>curl <span class="s2">&quot;http://localhost:8787/bill?account=1&amp;time_period=2012&quot;</span> -H <span class="s2">&quot;X-Auth-Token: 999888777666&quot;</span>
+</pre></div>
+</div>
+<p>Bill for all accounts on December, 2012:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span>curl <span class="s2">&quot;http://localhost:8787/bill?time_period=2012-12&quot;</span> -H <span class="s2">&quot;X-Auth-Token: 999888777666&quot;</span>
+</pre></div>
+</div>
+<p>Bill for account <tt class="docutils literal"><span class="pre">2</span></tt> from <tt class="docutils literal"><span class="pre">2012-01-01</span> <span class="pre">00:00:00</span></tt> till <tt class="docutils literal"><span class="pre">2012-01-01</span> <span class="pre">01:00:00</span></tt>:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span>curl <span class="s2">&quot;http://localhost:8787/bill?account=2&amp;period_start=2012-01-01T00%3A00%3A00Z&amp;period_end=2012-01-01T01%3A00%3A00Z&quot;</span> -H <span class="s2">&quot;X-Auth-Token: 999888777666&quot;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="event">
+<h2><a class="toc-backref" href="#id4">Event</a><a class="headerlink" href="#event" title="Permalink to this headline">¶</a></h2>
+<p><tt class="docutils literal"><span class="pre">POST</span> <span class="pre">/event</span></tt> notifies the Heart about a new event.
+All appropriate resources and accounts will be created lazily, so, there is no need to create a resource before posting an event.</p>
+<p>Request data has the following schema:</p>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="p">{</span>
+    <span class="s2">&quot;type&quot;</span><span class="o">:</span> <span class="s2">&quot;object&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;description&quot;</span><span class="o">:</span> <span class="s2">&quot;Resource event&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;properties&quot;</span><span class="o">:</span> <span class="p">{</span>
+        <span class="s2">&quot;account&quot;</span><span class="o">:</span> <span class="p">{</span>
+            <span class="s2">&quot;required&quot;</span><span class="o">:</span> <span class="kc">false</span><span class="p">,</span>
+            <span class="s2">&quot;type&quot;</span><span class="o">:</span> <span class="s2">&quot;integer&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;description&quot;</span><span class="o">:</span> <span class="s2">&quot;Account name&quot;</span>
+        <span class="p">},</span>
+        <span class="s2">&quot;datetime&quot;</span><span class="o">:</span> <span class="p">{</span>
+            <span class="s2">&quot;required&quot;</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+            <span class="s2">&quot;type&quot;</span><span class="o">:</span> <span class="s2">&quot;string&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;description&quot;</span><span class="o">:</span> <span class="s2">&quot;Event datatime&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;format&quot;</span><span class="o">:</span> <span class="s2">&quot;date-time&quot;</span>
+        <span class="p">},</span>
+        <span class="s2">&quot;name&quot;</span><span class="o">:</span> <span class="p">{</span>
+            <span class="s2">&quot;required&quot;</span><span class="o">:</span> <span class="kc">false</span><span class="p">,</span>
+            <span class="s2">&quot;type&quot;</span><span class="o">:</span> <span class="s2">&quot;string&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;description&quot;</span><span class="o">:</span> <span class="s2">&quot;Resource name&quot;</span>
+        <span class="p">},</span>
+        <span class="s2">&quot;rtype&quot;</span><span class="o">:</span> <span class="p">{</span>
+            <span class="s2">&quot;required&quot;</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+            <span class="s2">&quot;type&quot;</span><span class="o">:</span> <span class="s2">&quot;string&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;description&quot;</span><span class="o">:</span> <span class="s2">&quot;Resource type&quot;</span>
+        <span class="p">},</span>
+        <span class="s2">&quot;attrs&quot;</span><span class="o">:</span> <span class="p">{</span>
+            <span class="s2">&quot;required&quot;</span><span class="o">:</span> <span class="kc">false</span><span class="p">,</span>
+            <span class="s2">&quot;type&quot;</span><span class="o">:</span> <span class="s2">&quot;object&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;description&quot;</span><span class="o">:</span> <span class="s2">&quot;Dictionary of resource attributes that should be set&quot;</span>
+        <span class="p">},</span>
+        <span class="s2">&quot;linear&quot;</span><span class="o">:</span> <span class="p">{</span>
+            <span class="s2">&quot;required&quot;</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+            <span class="s2">&quot;type&quot;</span><span class="o">:</span> <span class="s2">&quot;number&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;description&quot;</span><span class="o">:</span> <span class="s2">&quot;Linear price for the resource&quot;</span>
+        <span class="p">},</span>
+        <span class="s2">&quot;fixed&quot;</span><span class="o">:</span> <span class="p">{</span>
+            <span class="s2">&quot;required&quot;</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+            <span class="s2">&quot;type&quot;</span><span class="o">:</span> <span class="p">[</span><span class="s2">&quot;number&quot;</span><span class="p">,</span> <span class="s2">&quot;null&quot;</span><span class="p">],</span>
+            <span class="s2">&quot;description&quot;</span><span class="o">:</span> <span class="s2">&quot;Fixed price for the resource or null to stop charging&quot;</span>
+        <span class="p">},</span>
+        <span class="s2">&quot;children&quot;</span><span class="o">:</span> <span class="p">{</span>
+            <span class="s2">&quot;items&quot;</span><span class="o">:</span> <span class="p">{</span>
+                <span class="s2">&quot;type&quot;</span><span class="o">:</span> <span class="s2">&quot;object&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;description&quot;</span><span class="o">:</span> <span class="s2">&quot;Array of events of child resources&quot;</span>
+            <span class="p">},</span>
+            <span class="s2">&quot;required&quot;</span><span class="o">:</span> <span class="kc">false</span><span class="p">,</span>
+            <span class="s2">&quot;type&quot;</span><span class="o">:</span> <span class="s2">&quot;array&quot;</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p><tt class="docutils literal"><span class="pre">account</span></tt> and <tt class="docutils literal"><span class="pre">datatime</span></tt> should be present for the root resource event. They are ignored for all child resources.
+<tt class="docutils literal"><span class="pre">account</span></tt> can be omitted for the root resource event if the resource is already created.</p>
+<p><tt class="docutils literal"><span class="pre">linear</span></tt> and <tt class="docutils literal"><span class="pre">fixed</span></tt> attributes control charging schemas for resources. They are mutually exclusive.</p>
+<ul class="simple">
+<li>For fixed schema, charged money is the product of resource type tariff and the provided <tt class="docutils literal"><span class="pre">fixed</span></tt> value.</li>
+<li>For linear schema, charged money is the product of resource type tariff, the provided <tt class="docutils literal"><span class="pre">linear</span></tt> value, and
+period length in days.</li>
+</ul>
+<p>If no tariff is stored for the given resource type, it will be assumed to be 1.</p>
+<p>Request data example:</p>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="p">{</span>
+    <span class="s2">&quot;account&quot;</span><span class="o">:</span> <span class="s2">&quot;2&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;name&quot;</span><span class="o">:</span> <span class="mi">16</span><span class="p">,</span>
+    <span class="s2">&quot;datetime&quot;</span><span class="o">:</span> <span class="s2">&quot;2011-01-02T00:00:00Z&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;attrs&quot;</span><span class="o">:</span> <span class="p">{</span>
+        <span class="s2">&quot;instance_type&quot;</span><span class="o">:</span> <span class="s2">&quot;m1.small&quot;</span>
+    <span class="p">},</span>
+    <span class="s2">&quot;fixed&quot;</span><span class="o">:</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="s2">&quot;rtype&quot;</span><span class="o">:</span> <span class="s2">&quot;nova/instance&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;children&quot;</span><span class="o">:</span> <span class="p">[</span>
+        <span class="p">{</span>
+            <span class="s2">&quot;rtype&quot;</span><span class="o">:</span> <span class="s2">&quot;local_gb&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;linear&quot;</span><span class="o">:</span> <span class="mi">20</span>
+        <span class="p">},</span>
+        <span class="p">{</span>
+            <span class="s2">&quot;rtype&quot;</span><span class="o">:</span> <span class="s2">&quot;memory_mb&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;linear&quot;</span><span class="o">:</span> <span class="mi">2048</span>
+        <span class="p">},</span>
+        <span class="p">{</span>
+            <span class="s2">&quot;rtype&quot;</span><span class="o">:</span> <span class="s2">&quot;vcpus&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;linear&quot;</span><span class="o">:</span> <span class="mi">1</span>
+        <span class="p">}</span>
+    <span class="p">]</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Here a virtual machine instance will be charged. Its disk, RAM, and CPU will be charged after linear scheme.
+Its instance type is <tt class="docutils literal"><span class="pre">m1.small</span></tt> (this attribute can be retrieved with <tt class="docutils literal"><span class="pre">GET</span> <span class="pre">/resource</span></tt> call).</p>
+</div>
+<div class="section" id="tariff">
+<h2><a class="toc-backref" href="#id5">Tariff</a><a class="headerlink" href="#tariff" title="Permalink to this headline">¶</a></h2>
+<p>Tariffs can be retrieved with <tt class="docutils literal"><span class="pre">GET</span> <span class="pre">/tariff</span></tt> and set with <tt class="docutils literal"><span class="pre">POST</span> <span class="pre">/tariff</span></tt>. Tariff name equals to the corresponding resource type.</p>
+<p>Setting request data has the following schema:</p>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="p">{</span>
+    <span class="s2">&quot;type&quot;</span><span class="o">:</span> <span class="s2">&quot;object&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;properties&quot;</span><span class="o">:</span> <span class="p">{</span>
+        <span class="s2">&quot;datetime&quot;</span><span class="o">:</span> <span class="p">{</span>
+            <span class="s2">&quot;required&quot;</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+            <span class="s2">&quot;type&quot;</span><span class="o">:</span> <span class="s2">&quot;string&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;description&quot;</span><span class="o">:</span> <span class="s2">&quot;Since that datatime tariffs are changed&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;format&quot;</span><span class="o">:</span> <span class="s2">&quot;date-time&quot;</span>
+        <span class="p">},</span>
+        <span class="s2">&quot;migrate&quot;</span><span class="o">:</span> <span class="p">{</span>
+            <span class="s2">&quot;required&quot;</span><span class="o">:</span> <span class="kc">false</span><span class="p">,</span>
+            <span class="s2">&quot;type&quot;</span><span class="o">:</span> <span class="s2">&quot;boolean&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;description&quot;</span><span class="o">:</span> <span class="s2">&quot;Whether all currently charging resources should migrate to the new tariffs&quot;</span>
+        <span class="p">},</span>
+        <span class="s2">&quot;values&quot;</span><span class="o">:</span> <span class="p">{</span>
+            <span class="s2">&quot;required&quot;</span><span class="o">:</span> <span class="kc">false</span><span class="p">,</span>
+            <span class="s2">&quot;type&quot;</span><span class="o">:</span> <span class="s2">&quot;object&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;description&quot;</span><span class="o">:</span> <span class="s2">&quot;Dictionary of the new tariffs&quot;</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Setting tariff example:</p>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="p">{</span>
+    <span class="s2">&quot;datetime&quot;</span><span class="o">:</span> <span class="s2">&quot;2010-01-01T00:00:00.000000Z&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;migrate&quot;</span><span class="o">:</span> <span class="kc">false</span><span class="p">,</span>
+    <span class="s2">&quot;values&quot;</span><span class="o">:</span> <span class="p">{</span>
+        <span class="s2">&quot;local_gb&quot;</span><span class="o">:</span> <span class="mf">2.0</span><span class="p">,</span>
+        <span class="s2">&quot;memory_mb&quot;</span><span class="o">:</span> <span class="mf">3.0</span><span class="p">,</span>
+        <span class="s2">&quot;vcpus&quot;</span><span class="o">:</span> <span class="mf">0.5</span><span class="p">,</span>
+        <span class="s2">&quot;glance/image&quot;</span><span class="o">:</span> <span class="mf">1.0</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Response to <tt class="docutils literal"><span class="pre">GET</span> <span class="pre">/tariff</span></tt> is a tariff dictionary and looks like this:</p>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="p">{</span>
+    <span class="s2">&quot;local_gb&quot;</span><span class="o">:</span> <span class="mf">2.0</span><span class="p">,</span>
+    <span class="s2">&quot;memory_mb&quot;</span><span class="o">:</span> <span class="mf">3.0</span><span class="p">,</span>
+    <span class="s2">&quot;vcpus&quot;</span><span class="o">:</span> <span class="mf">0.5</span><span class="p">,</span>
+    <span class="s2">&quot;glance/image&quot;</span><span class="o">:</span> <span class="mf">1.0</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="resource">
+<h2><a class="toc-backref" href="#id6">Resource</a><a class="headerlink" href="#resource" title="Permalink to this headline">¶</a></h2>
+<p>Resources can be retrieved with <tt class="docutils literal"><span class="pre">GET</span> <span class="pre">/resource</span></tt> and set with <tt class="docutils literal"><span class="pre">POST</span> <span class="pre">/resource</span></tt>.</p>
+<p>Setting request data schema is nearly the same as post event schema.
+The difference is that <tt class="docutils literal"><span class="pre">datetime</span></tt>, <tt class="docutils literal"><span class="pre">linear</span></tt>, and <tt class="docutils literal"><span class="pre">fixed</span></tt> attributes
+are not used.</p>
+<p>Response to <tt class="docutils literal"><span class="pre">GET</span> <span class="pre">/resource</span></tt> is an array of resource objects and looks like this:</p>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="p">[</span>
+    <span class="p">{</span>
+        <span class="s2">&quot;account_id&quot;</span><span class="o">:</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="s2">&quot;rtype&quot;</span><span class="o">:</span> <span class="s2">&quot;nova/instance&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;parent_id&quot;</span><span class="o">:</span> <span class="kc">null</span><span class="p">,</span>
+        <span class="s2">&quot;attrs&quot;</span><span class="o">:</span> <span class="p">{</span>
+            <span class="s2">&quot;instance_type&quot;</span><span class="o">:</span> <span class="s2">&quot;m1.small&quot;</span>
+        <span class="p">},</span>
+        <span class="s2">&quot;id&quot;</span><span class="o">:</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="s2">&quot;name&quot;</span><span class="o">:</span> <span class="s2">&quot;16&quot;</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+        <span class="s2">&quot;account_id&quot;</span><span class="o">:</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="s2">&quot;rtype&quot;</span><span class="o">:</span> <span class="s2">&quot;local_gb&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;parent_id&quot;</span><span class="o">:</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="s2">&quot;attrs&quot;</span><span class="o">:</span> <span class="p">{},</span>
+        <span class="s2">&quot;id&quot;</span><span class="o">:</span> <span class="mi">2</span><span class="p">,</span>
+        <span class="s2">&quot;name&quot;</span><span class="o">:</span> <span class="kc">null</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+        <span class="s2">&quot;account_id&quot;</span><span class="o">:</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="s2">&quot;rtype&quot;</span><span class="o">:</span> <span class="s2">&quot;memory_mb&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;parent_id&quot;</span><span class="o">:</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="s2">&quot;attrs&quot;</span><span class="o">:</span> <span class="p">{},</span>
+        <span class="s2">&quot;id&quot;</span><span class="o">:</span> <span class="mi">3</span><span class="p">,</span>
+        <span class="s2">&quot;name&quot;</span><span class="o">:</span> <span class="kc">null</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+        <span class="s2">&quot;account_id&quot;</span><span class="o">:</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="s2">&quot;rtype&quot;</span><span class="o">:</span> <span class="s2">&quot;vcpus&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;parent_id&quot;</span><span class="o">:</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="s2">&quot;attrs&quot;</span><span class="o">:</span> <span class="p">{},</span>
+        <span class="s2">&quot;id&quot;</span><span class="o">:</span> <span class="mi">4</span><span class="p">,</span>
+        <span class="s2">&quot;name&quot;</span><span class="o">:</span> <span class="kc">null</span>
+    <span class="p">}</span>
+<span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="account">
+<h2><a class="toc-backref" href="#id7">Account</a><a class="headerlink" href="#account" title="Permalink to this headline">¶</a></h2>
+<p>Resources can be retrieved with <tt class="docutils literal"><span class="pre">GET</span> <span class="pre">/account</span></tt>.</p>
+<p>Response is an array of account objects and looks like this:</p>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="p">[</span>
+    <span class="p">{</span>
+        <span class="s2">&quot;id&quot;</span><span class="o">:</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="s2">&quot;name&quot;</span><span class="o">:</span> <span class="s2">&quot;4&quot;</span>
+    <span class="p">}</span>
+    <span class="p">{</span>
+        <span class="s2">&quot;id&quot;</span><span class="o">:</span> <span class="mi">2</span><span class="p">,</span>
+        <span class="s2">&quot;name&quot;</span><span class="o">:</span> <span class="s2">&quot;35&quot;</span>
+    <span class="p">}</span>
+<span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+</div>
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right"><a href="#">Back to top</a></p>
+    <p>
+        &copy; Copyright 2012, Alessio Ababilov (Grid Dynamics Openstack Core Team).<br/>
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.7.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>

@@ -1,0 +1,231 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>The nova_billing.heart.database.api Module &mdash; nova-billing v2.0.0 documentation</title>
+    <link rel="stylesheet" href="../_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/bootstrap.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/bootstrap-sphinx.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '2.0.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/bootstrap-dropdown.js"></script>
+    <script type="text/javascript" src="../_static/bootstrap-scrollspy.js"></script>
+    <link rel="top" title="nova-billing v2.0.0 documentation" href="../index.html" />
+<script type="text/javascript">
+(function () {
+  /**
+   * Patch TOC list.
+   *
+   * Will mutate the underlying span to have a correct ul for nav.
+   *
+   * @param $span: Span containing nested UL's to mutate.
+   * @param minLevel: Starting level for nested lists. (1: global, 2: local).
+   */
+  var patchToc = function ($span, minLevel) {
+    var $tocList = $("<ul/>").attr('class', "dropdown-menu"),
+      findA;
+
+    // Find all a "internal" tags, traversing recursively.
+    findA = function ($elem, level) {
+      var level = level || 0,
+        $items = $elem.find("> li > a.internal, > ul, > li > ul");
+
+      // Iterate everything in order.
+      $items.each(function (index, item) {
+        var $item = $(item),
+          tag = item.tagName.toLowerCase(),
+          pad = 10 + ((level - minLevel) * 10);
+
+        if (tag === 'a' && level >= minLevel) {
+          // Add to existing padding.
+          $item.css('padding-left', pad + "px");
+          // Add list element.
+          $tocList.append($("<li/>").append($item));
+        } else if (tag === 'ul') {
+          // Recurse.
+          findA($item, level + 1);
+        }
+      });
+    };
+
+    // Start construction and return.
+    findA($span);
+
+    // Wipe out old list and patch in new one.
+    return $span.empty("ul").append($tocList);
+  };
+
+  $(document).ready(function () {
+    // Patch the global and local TOC's to be bootstrap-compliant.
+    patchToc($("span.globaltoc"), 1);
+    patchToc($("span.localtoc"), 2);
+
+    // Activate.
+    $('#topbar').dropdown();
+  });
+}());
+</script>
+
+  </head>
+  <body>
+  <div class="topbar" data-scrollspy="scrollspy" >
+    <div class="topbar-inner">
+      <div class="container">
+        <a class="brand" href="../index.html">nova-billing v2.0.0 documentation</a>
+        <ul class="nav">
+          
+            <li class="dropdown" data-dropdown="dropdown">
+  <a href="../index.html"
+     class="dropdown-toggle">Site</a>
+  <span class="globaltoc"><ul>
+<li class="toctree-l1"><a class="reference internal" href="../glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../architecture.html">Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quickstart.html">Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../whatsnew.html">What&#8217;s new</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../restapi.html">REST API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../config.html">Configuration</a></li>
+</ul>
+</span>
+</li>
+            
+          
+          
+            
+          
+          
+            
+          
+        </ul>
+        <ul class="nav secondary-nav">
+          
+            
+<form class="pull-left" action="../search.html" method="get">
+  <input type="text" name="q" placeholder="Search" />
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+        </ul>
+      </div>
+    </div>
+  </div>
+
+<div class="container">
+   
+  <div class="section" id="module-nova_billing.heart.database.api">
+<span id="the-nova-billing-heart-database-api-module"></span><h1>The nova_billing.heart.database.api Module<a class="headerlink" href="#module-nova_billing.heart.database.api" title="Permalink to this headline">¶</a></h1>
+<p>Nova Billing API.</p>
+<dl class="function">
+<dt id="nova_billing.heart.database.api.account_get_or_create">
+<tt class="descclassname">nova_billing.heart.database.api.</tt><tt class="descname">account_get_or_create</tt><big>(</big><em>name</em><big>)</big><a class="headerlink" href="#nova_billing.heart.database.api.account_get_or_create" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="nova_billing.heart.database.api.account_map">
+<tt class="descclassname">nova_billing.heart.database.api.</tt><tt class="descname">account_map</tt><big>(</big><big>)</big><a class="headerlink" href="#nova_billing.heart.database.api.account_map" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="nova_billing.heart.database.api.bill_on_interval">
+<tt class="descclassname">nova_billing.heart.database.api.</tt><tt class="descname">bill_on_interval</tt><big>(</big><em>period_start</em>, <em>period_stop</em>, <em>account_id=None</em><big>)</big><a class="headerlink" href="#nova_billing.heart.database.api.bill_on_interval" title="Permalink to this definition">¶</a></dt>
+<dd><p>Retrieve statistics for the given interval [<tt class="docutils literal"><span class="pre">period_start</span></tt>, <tt class="docutils literal"><span class="pre">period_stop</span></tt>]. 
+<tt class="docutils literal"><span class="pre">account_id=None</span></tt> means all accounts.</p>
+<p>Example of the returned value:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">{</span>
+    <span class="mi">1</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span>
+            <span class="s">&quot;name&quot;</span><span class="p">:</span> <span class="s">&quot;16&quot;</span><span class="p">,</span> 
+            <span class="s">&quot;rtype&quot;</span><span class="p">:</span> <span class="s">&quot;nova/instance&quot;</span><span class="p">,</span> 
+            <span class="s">&quot;created_at&quot;</span><span class="p">:</span> <span class="s">&quot;2011-01-02T00:00:00Z&quot;</span><span class="p">,</span> 
+            <span class="s">&quot;destroyed_at&quot;</span><span class="p">:</span> <span class="n">null</span><span class="p">,</span> 
+            <span class="s">&quot;parent_id&quot;</span><span class="p">:</span> <span class="n">null</span><span class="p">,</span> 
+            <span class="s">&quot;cost&quot;</span><span class="p">:</span> <span class="mf">0.0</span><span class="p">,</span> 
+            <span class="s">&quot;id&quot;</span><span class="p">:</span> <span class="mi">1</span>
+        <span class="p">},</span> 
+        <span class="p">{</span>
+            <span class="s">&quot;name&quot;</span><span class="p">:</span> <span class="n">null</span><span class="p">,</span> 
+            <span class="s">&quot;rtype&quot;</span><span class="p">:</span> <span class="s">&quot;local_gb&quot;</span><span class="p">,</span> 
+            <span class="s">&quot;created_at&quot;</span><span class="p">:</span> <span class="s">&quot;2011-01-02T00:00:00Z&quot;</span><span class="p">,</span> 
+            <span class="s">&quot;destroyed_at&quot;</span><span class="p">:</span> <span class="n">null</span><span class="p">,</span> 
+            <span class="s">&quot;parent_id&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> 
+            <span class="s">&quot;cost&quot;</span><span class="p">:</span> <span class="mf">1200.0</span><span class="p">,</span> 
+            <span class="s">&quot;id&quot;</span><span class="p">:</span> <span class="mi">2</span>
+        <span class="p">},</span> 
+        <span class="p">{</span>
+            <span class="s">&quot;name&quot;</span><span class="p">:</span> <span class="n">null</span><span class="p">,</span> 
+            <span class="s">&quot;rtype&quot;</span><span class="p">:</span> <span class="s">&quot;memory_mb&quot;</span><span class="p">,</span> 
+            <span class="s">&quot;created_at&quot;</span><span class="p">:</span> <span class="s">&quot;2011-01-02T00:00:00Z&quot;</span><span class="p">,</span> 
+            <span class="s">&quot;destroyed_at&quot;</span><span class="p">:</span> <span class="n">null</span><span class="p">,</span> 
+            <span class="s">&quot;parent_id&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> 
+            <span class="s">&quot;cost&quot;</span><span class="p">:</span> <span class="mf">380928.0</span><span class="p">,</span> 
+            <span class="s">&quot;id&quot;</span><span class="p">:</span> <span class="mi">3</span>
+        <span class="p">}</span>
+    <span class="p">]</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Returns:</th><td class="field-body">a dictionary where keys are account ids and values are billing lists.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="nova_billing.heart.database.api.resource_find">
+<tt class="descclassname">nova_billing.heart.database.api.</tt><tt class="descname">resource_find</tt><big>(</big><em>rtype</em>, <em>name</em><big>)</big><a class="headerlink" href="#nova_billing.heart.database.api.resource_find" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="nova_billing.heart.database.api.resource_get_or_create">
+<tt class="descclassname">nova_billing.heart.database.api.</tt><tt class="descname">resource_get_or_create</tt><big>(</big><em>account_id</em>, <em>parent_id</em>, <em>rtype</em>, <em>name</em><big>)</big><a class="headerlink" href="#nova_billing.heart.database.api.resource_get_or_create" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="nova_billing.heart.database.api.resource_segment_end">
+<tt class="descclassname">nova_billing.heart.database.api.</tt><tt class="descname">resource_segment_end</tt><big>(</big><em>resource_id</em>, <em>end_at</em><big>)</big><a class="headerlink" href="#nova_billing.heart.database.api.resource_segment_end" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="nova_billing.heart.database.api.tariff_map">
+<tt class="descclassname">nova_billing.heart.database.api.</tt><tt class="descname">tariff_map</tt><big>(</big><big>)</big><a class="headerlink" href="#nova_billing.heart.database.api.tariff_map" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="nova_billing.heart.database.api.tariffs_migrate">
+<tt class="descclassname">nova_billing.heart.database.api.</tt><tt class="descname">tariffs_migrate</tt><big>(</big><em>old_tariffs</em>, <em>new_tariffs</em>, <em>event_datetime</em><big>)</big><a class="headerlink" href="#nova_billing.heart.database.api.tariffs_migrate" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+
+
+</div>
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right"><a href="#">Back to top</a></p>
+    <p>
+        &copy; Copyright 2012, Alessio Ababilov (Grid Dynamics Openstack Core Team).<br/>
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.7.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>
